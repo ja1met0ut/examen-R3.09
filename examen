@@ -1,0 +1,78 @@
+import sys, time, socket
+from PyQt5.QtWidgets import QMainWindow, QWidget, QGridLayout, QLabel, QLineEdit, QPushButton, QApplication
+
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        widget = QWidget()
+        self.setCentralWidget(widget)
+
+        grid = QGridLayout()
+        widget.setLayout(grid)
+
+        lab = QLabel("Compteur")
+        self.__text = QLineEdit("0")
+        start = QPushButton("Start")
+        quit = QPushButton("Quitter")
+        reset = QPushButton("Reset")
+        stop = QPushButton("Stop")
+        connect = QPushButton("Connect")
+
+        # Ajouter les composants au grid ayout
+        grid.addWidget(lab, 0, 0)
+        grid.addWidget(self.__text, 0, 1)
+        grid.addWidget(start, 2, 0, 2, 1)
+        grid.addWidget(reset, 3, 0)
+        grid.addWidget(stop, 3, 1)
+        grid.addWidget(connect, 4, 0)
+        grid.addWidget(quit, 4, 1)
+
+        start.clicked.connect(self.__actionstart)
+        quit.clicked.connect(self.__actionQuitter)
+        reset.clicked.connect(self.__actionreset)
+        stop.clicked.connect(self.__actionstop)
+        connect.clicked.connect(self.__actionconnect)
+        self.setWindowTitle("Chronomètre")
+
+
+    def __actionstart(self):
+
+        QLineEdit.setText(self.__text)
+        QLineEdit.setReadOnly(self.__text)
+        var = 0
+        for i in range(var):
+            time.sleep(1)
+            var -= 1
+
+
+
+    def __actionQuitter(self):
+        QCoreApplication.exit(0)
+
+    def __actionreset(self):
+        pass
+
+
+    def __actionstop(self):
+        pass
+
+    def __actionconnect(self):
+        host = "localhost"
+        port = 10000
+
+        print(f"ouverture de la socket sur le serveur {host} port {port}")
+        client_socket = socket.socket()
+        client_socket.connect((host, port))
+        print("serveur connecté")
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+
+    window = MainWindow()
+    window.show()
+    app.exec()
+
+# Lien github :
